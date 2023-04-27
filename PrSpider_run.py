@@ -1,30 +1,45 @@
 from PrSpider import PrSpiders
+from spider_sqlite import *
 
 
 class Spider(PrSpiders):
 
-    def __init__(self, url, encode='utf-8', verify=False,
-                 retry=None, method=None, header=None, log='info', stdout=None,
-                 timeout=None, download_num=None, download_delay=None, task=None
-
+    def __init__(self, url=None, encode='utf-8', verify=False,
+                 retrytime=True, method='get', header={}, loger='info', stdout=False,
+                 timeout=3, download_num=5, download_delay=1, worker=5, task=None, data=None
                  ):
         self.url = url
+        self.worker = int(worker)
         self.encode = encode
         self.verify = verify
-        self.retry = retry
         self.method = method
         self.header = header
         self.log_stdout = stdout
-        self.log_level = log
-
+        self.log_level = loger
+        self.download_num = int(download_num)
+        self.timeout = int(timeout)
+        self.download_delay = int(download_delay)
+        self.task = task
+        self.data = data
+        self.retrytime = int(retrytime)
         super().__init__()
 
     def start_requests(self, **kwargs):
-        # PrSpiders.Requests(url=self.url, callback=self.parse, encoding=self.encode,
-        #                    verify=self.verify, retry_time=self.retry, method=self.method, headers=self.header
-        #                    )
-        pass
+        get_meta = {
+            'req_headers': self.header,
+            'data': self.data,
+        }
+        url_list = self.url.split('\n')
+        PrSpiders.Requests(
+            url=url_list, callback=self.cparse, encoding=self.encode,
+            retry_time=self.retrytime, method=self.method, headers=self.header,
+            timeout=self.timeout, verify=self.verify, meta=get_meta
+        )
 
-    def parse(self, response):
-        print(response.text)
-        # print(response.code, response.url)
+    def cparse(self, response):
+        sql = '''
+        insert into "main"."qt_spider" (url, code, req_headers, res_headers, res_len, res_text) VALUES (?, ?, ?, ?, ?, ?)
+        '''
+        conn.execute(sql, (response.url, response.code, escape_string(str(response.meta)),
+               escape_string(str(response.headers)), response.len, escape_string(response.text)))
+        conn.commit()
