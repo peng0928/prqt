@@ -34,11 +34,26 @@ class Spider(PrSpiders):
             self.header = eval(self.header)
         except:
             pass
-        PrSpiders.Requests(
-            url=url_list, callback=self.cparse, encoding=self.encode,
-            retry_time=self.retrytime, method=self.method, headers=self.header,
-            timeout=self.timeout, verify=self.verify, meta=get_meta
-        )
+        if self.data:
+            if 'json' in str(self.header):
+                PrSpiders.Requests(
+                    url=url_list, callback=self.cparse, encoding=self.encode,
+                    retry_time=self.retrytime, method=self.method, headers=self.header,
+                    timeout=self.timeout, verify=self.verify, meta=get_meta, data=self.data
+                )
+            else:
+                PrSpiders.Requests(
+                    url=url_list, callback=self.cparse, encoding=self.encode,
+                    retry_time=self.retrytime, method=self.method, headers=self.header,
+                    timeout=self.timeout, verify=self.verify, meta=get_meta, params=self.data
+                )
+        else:
+            PrSpiders.Requests(
+                url=url_list, callback=self.cparse, encoding=self.encode,
+                retry_time=self.retrytime, method=self.method, headers=self.header,
+                timeout=self.timeout, verify=self.verify, meta=get_meta
+            )
+
 
     def cparse(self, response):
         sql = '''
