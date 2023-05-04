@@ -1,10 +1,14 @@
+import json
 from concurrent.futures import ThreadPoolExecutor
-from PrSpider_run import Spider
-from spider_sqlite import *
-import json, re
+from PrSpider_run import *
 from functools import partial
 from PyQt5.QtWidgets import QWidget
 from PyQt5 import QtCore, QtGui, QtWidgets
+from spider_sqlite import *
+from w2 import UiMainTwo
+from enc.encryptions import *
+from enc.AES_CBC_256 import *
+from enc.rsa_model_exponent import *
 
 
 class Ui_Dialog(object):
@@ -126,14 +130,14 @@ class Ui_Dialog(object):
         self.tab_4.setObjectName("tab_4")
         self.gridLayout_3 = QtWidgets.QGridLayout(self.tab_4)
         self.gridLayout_3.setObjectName("gridLayout_3")
-        self.pushButton_2 = QtWidgets.QPushButton(self.tab_4)
-        self.pushButton_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.pushButton_2.setObjectName("pushButton_2")
-        self.gridLayout_3.addWidget(self.pushButton_2, 0, 0, 1, 1)
-        self.pushButton = QtWidgets.QPushButton(self.tab_4)
-        self.pushButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.pushButton.setObjectName("pushButton")
-        self.gridLayout_3.addWidget(self.pushButton, 0, 1, 1, 1)
+        self.clearbtn = QtWidgets.QPushButton(self.tab_4)
+        self.clearbtn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.clearbtn.setObjectName("clearbtn")
+        self.gridLayout_3.addWidget(self.clearbtn, 0, 1, 1, 1)
+        self.refush = QtWidgets.QPushButton(self.tab_4)
+        self.refush.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.refush.setObjectName("refush")
+        self.gridLayout_3.addWidget(self.refush, 0, 0, 1, 1)
         self.tableWidget = QtWidgets.QTableWidget(self.tab_4)
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setColumnCount(8)
@@ -199,29 +203,33 @@ class Ui_Dialog(object):
         self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents_3")
         self.gridLayout_5 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_3)
         self.gridLayout_5.setObjectName("gridLayout_5")
-        self.label_12 = QtWidgets.QLabel(self.scrollAreaWidgetContents_3)
-        self.label_12.setObjectName("label_12")
-        self.gridLayout_5.addWidget(self.label_12, 0, 0, 1, 1)
         self.pwd = QtWidgets.QLineEdit(self.scrollAreaWidgetContents_3)
         self.pwd.setText("")
         self.pwd.setObjectName("pwd")
         self.gridLayout_5.addWidget(self.pwd, 0, 1, 1, 1)
         self.label_13 = QtWidgets.QLabel(self.scrollAreaWidgetContents_3)
         self.label_13.setObjectName("label_13")
-        self.gridLayout_5.addWidget(self.label_13, 0, 2, 1, 1)
-        self.iv = QtWidgets.QLineEdit(self.scrollAreaWidgetContents_3)
-        self.iv.setObjectName("iv")
-        self.gridLayout_5.addWidget(self.iv, 0, 3, 1, 1)
+        self.gridLayout_5.addWidget(self.label_13, 0, 3, 1, 1)
         self.en_str = QtWidgets.QTextEdit(self.scrollAreaWidgetContents_3)
         self.en_str.setObjectName("en_str")
-        self.gridLayout_5.addWidget(self.en_str, 1, 1, 1, 1)
+        self.gridLayout_5.addWidget(self.en_str, 2, 1, 1, 1)
+        self.label_12 = QtWidgets.QLabel(self.scrollAreaWidgetContents_3)
+        self.label_12.setObjectName("label_12")
+        self.gridLayout_5.addWidget(self.label_12, 0, 0, 1, 1)
+        self.iv = QtWidgets.QLineEdit(self.scrollAreaWidgetContents_3)
+        self.iv.setObjectName("iv")
+        self.gridLayout_5.addWidget(self.iv, 0, 4, 1, 1)
         self.de_str = QtWidgets.QTextEdit(self.scrollAreaWidgetContents_3)
         self.de_str.setObjectName("de_str")
-        self.gridLayout_5.addWidget(self.de_str, 1, 3, 1, 1)
+        self.gridLayout_5.addWidget(self.de_str, 2, 4, 1, 1)
         self.encstart = QtWidgets.QPushButton(self.scrollAreaWidgetContents_3)
         self.encstart.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.encstart.setObjectName("encstart")
-        self.gridLayout_5.addWidget(self.encstart, 2, 0, 1, 4)
+        self.gridLayout_5.addWidget(self.encstart, 3, 1, 1, 1)
+        self.decstart = QtWidgets.QPushButton(self.scrollAreaWidgetContents_3)
+        self.decstart.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.decstart.setObjectName("decstart")
+        self.gridLayout_5.addWidget(self.decstart, 3, 4, 1, 1)
         self.scrollArea_3.setWidget(self.scrollAreaWidgetContents_3)
         self.verticalLayout_4.addWidget(self.scrollArea_3)
         self.tabWidget.addTab(self.tab_2, "")
@@ -265,8 +273,8 @@ class Ui_Dialog(object):
         self.start.setText(_translate("Dialog", "启动"))
         self.check_cookie.setText(_translate("Dialog", "检测cookie"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("Dialog", "请求测试"))
-        self.pushButton_2.setText(_translate("Dialog", "刷新"))
-        self.pushButton.setText(_translate("Dialog", "清空全部"))
+        self.clearbtn.setText(_translate("Dialog", "清空全部"))
+        self.refush.setText(_translate("Dialog", "刷新"))
         item = self.tableWidget.horizontalHeaderItem(0)
         item.setText(_translate("Dialog", "id"))
         item = self.tableWidget.horizontalHeaderItem(1)
@@ -287,34 +295,19 @@ class Ui_Dialog(object):
         self.json_zh.setText(_translate("Dialog", "JSON转换"))
         self.start_headers.setText(_translate("Dialog", "启动"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("Dialog", "headers"))
-        self.label_12.setText(_translate("Dialog", "密钥"))
         self.label_13.setText(_translate("Dialog", "偏移量"))
-        self.encstart.setText(_translate("Dialog", "启动"))
+        self.label_12.setText(_translate("Dialog", "密钥"))
+        self.encstart.setText(_translate("Dialog", "加密"))
+        self.decstart.setText(_translate("Dialog", "解密"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("Dialog", "加解密"))
         """开始"""
-        for item in get_data():
-            ids = item[0]
-            url = item[1]
-            code = item[2]
-            req_headers = item[3]
-            res_headers = item[4]
-            res_len = item[5]
-            res_text = item[6]
-            date = item[7]
-            row_count = self.tableWidget.rowCount()  # 返回当前行数(尾部)
-            self.view_start = QtWidgets.QPushButton('查看')
-            self.view_start.clicked.connect(partial(self.start_view, row_count))
-            self.tableWidget.insertRow(row_count)
-            self.tableWidget.setItem(row_count, 0, QtWidgets.QTableWidgetItem(str(ids)))
-            self.tableWidget.setItem(row_count, 1, QtWidgets.QTableWidgetItem(url))
-            self.tableWidget.setItem(row_count, 2, QtWidgets.QTableWidgetItem(code))
-            self.tableWidget.setItem(row_count, 3, QtWidgets.QTableWidgetItem(req_headers))
-            self.tableWidget.setItem(row_count, 4, QtWidgets.QTableWidgetItem(res_len))
-            self.tableWidget.setItem(row_count, 5, QtWidgets.QTableWidgetItem(res_headers))
-            self.tableWidget.setItem(row_count, 6, QtWidgets.QTableWidgetItem(date))
-            self.tableWidget.setCellWidget(row_count, 7, self.view_start)
-
+        self.get_data_sqlite()
         self.start.clicked.connect(self.start_btn)
+        self.encstart.clicked.connect(self.encstart_btn)
+        self.decstart.clicked.connect(self.decstart_btn)
+        self.refush.clicked.connect(self.refush_btn)
+        self.check_cookie.clicked.connect(self.check_cookie_btn)
+        self.clearbtn.clicked.connect(self.clearbtn_btn)
         self.start_headers.clicked.connect(self.start_headers_btn)
         self.tableWidget.cellPressed.connect(self.getPosContent)
 
@@ -348,6 +341,79 @@ class Ui_Dialog(object):
             except Exception as e:
                 print(e)
 
+    def check_cookie_btn(self):
+        url = self.url.toPlainText()
+        data = self.datas.toPlainText()
+        header = self.header_2.toPlainText()
+        header = header if header else {}
+        encode = self.encode.text()
+        retry = self.retry.text()
+        log = self.log.text()
+        task = self.task.text()
+        download_delay = self.download_delay.text()
+        download_num = self.download_num.text()
+        timeout = self.timeout.text()
+        worker = self.worker.text()
+        verify = self.verify.isChecked()
+        post = self.post.isChecked()
+        stdout = self.stdout.isChecked()
+        stdout = True if stdout else False
+        method = 'POST' if post else 'get'
+        if url:
+            try:
+                ThreadPoolExecutor(3).submit(
+                    Spider_Cookie, url=url,
+                    verify=verify, retrytime=retry, method=method, header=header, encode=encode,
+                    stdout=stdout, loger=log, timeout=timeout, download_delay=download_delay,
+                    download_num=download_num,
+                    task=task, worker=worker, data=data
+                )
+            except Exception as e:
+                print(e)
+
+    def refush_btn(self):
+        for rowNum in range(0, self.tableWidget.rowCount())[::-1]:  # 逆序删除，正序删除会有一些删除不成功
+            self.tableWidget.removeRow(rowNum)
+        self.get_data_sqlite()
+
+    def encstart_btn(self):
+        key = self.pwd.text()
+        iv = self.iv.text()
+        data = self.en_str.toPlainText()
+        rjson = {
+            'base64': bs64(data),
+            'md5': md5(data),
+            'sha1': sha1(data),
+            'sha256': sha256(data),
+            'sha512': sha512(data),
+            'url_quote': url_enquote(data),
+            'unicode': str(unicode(data), 'utf-8'),
+            'timestamp': timestamp(),
+            'aes_cbc': aes_cbc_encrypt(text=data, key=key, iv=iv),
+            'aes_cbc_256': AesCrypto(key=key, iv=iv).encrypt(text=data),
+            'rsa_model_exponent': Encrypt(e=key, m=iv).encrypt(data),
+        }
+        s = self.js_header(str(rjson))
+        self.de_str.setPlainText(s)
+
+    def decstart_btn(self):
+        key = self.pwd.text()
+        iv = self.iv.text()
+        data = self.en_str.toPlainText()
+        rjson = {
+            'base64': d_bs64(data),
+            'unicode': unicode_escape(data),
+            'timestamp': d_timestamp(data),
+            'url_unquote': url_unquote(data),
+            'aes_cbc': aes_cbc(word=data, key=key, offset=iv),
+            'aes_cbc_256': AesCrypto(key=key, iv=iv).decrypt(text=data)
+        }
+        self.de_str.setPlainText('%s' % self.js_header(str(rjson)))
+
+    def clearbtn_btn(self):
+        del_data()
+        self.refush_btn()
+
     def start_headers_btn(self):
         json_bool = self.json_zh.isChecked()
         headers = self.getheaders.toPlainText()
@@ -367,7 +433,7 @@ class Ui_Dialog(object):
 
                 hstr = self.js_header(headers)
                 self.addheader.setPlainText((hstr))
-            except  Exception as e:
+            except Exception as e:
                 self.addheader.setPlainText('格式错误 <%s>' % e)
         else:
             hstr = self.func_header(headers)
@@ -403,14 +469,13 @@ class Ui_Dialog(object):
         return h_str
 
     def start_view(self, row, rol):
-        from w2 import UiMainTwo
         ids = self.tableWidget.item(row, 0).text()
-        data = get_one_data(ids)
         try:
+            data = get_one_data(ids)
             data = data[0][-3]
             data = data if data else '请求失败'
-        except:
-            data = '请求失败'
+        except Exception as e:
+            data = f'请求失败:: {e}'
         self.ui_2 = UiMainTwo(title='源码-' + str(ids), text=data)
         self.ui_2.show()
 
@@ -422,6 +487,28 @@ class Ui_Dialog(object):
             print('选中内容:' + content)
         except:
             pass
+
+    def get_data_sqlite(self):
+        for item in get_data():
+            ids = item[0]
+            url = item[1]
+            code = item[2]
+            req_headers = item[3].replace('\\', '')
+            res_headers = item[4].replace('\\', '')
+            res_len = item[5]
+            date = item[7]
+            row_count = self.tableWidget.rowCount()  # 返回当前行数(尾部)
+            self.view_start = QtWidgets.QPushButton('查看')
+            self.view_start.clicked.connect(partial(self.start_view, row_count))
+            self.tableWidget.insertRow(row_count)
+            self.tableWidget.setItem(row_count, 0, QtWidgets.QTableWidgetItem(str(ids)))
+            self.tableWidget.setItem(row_count, 1, QtWidgets.QTableWidgetItem(url))
+            self.tableWidget.setItem(row_count, 2, QtWidgets.QTableWidgetItem(code))
+            self.tableWidget.setItem(row_count, 3, QtWidgets.QTableWidgetItem(req_headers))
+            self.tableWidget.setItem(row_count, 4, QtWidgets.QTableWidgetItem(res_len))
+            self.tableWidget.setItem(row_count, 5, QtWidgets.QTableWidgetItem(res_headers))
+            self.tableWidget.setItem(row_count, 6, QtWidgets.QTableWidgetItem(date))
+            self.tableWidget.setCellWidget(row_count, 7, self.view_start)
 
 
 class Child(QWidget):
