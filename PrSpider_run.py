@@ -30,6 +30,10 @@ class Spider(PrSpiders):
             'data': self.data,
         }
         url_list = self.url.split('\n')
+        try:
+            self.header = eval(self.header)
+        except:
+            pass
         PrSpiders.Requests(
             url=url_list, callback=self.cparse, encoding=self.encode,
             retry_time=self.retrytime, method=self.method, headers=self.header,

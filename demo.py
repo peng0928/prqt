@@ -429,8 +429,10 @@ class Ui_Dialog(object):
                     except:
                         pass
                     finally:
-                        json.loads(headers)
-
+                        try:
+                            json.loads(headers)
+                        except:
+                            pass
                 hstr = self.js_header(headers)
                 self.addheader.setPlainText((hstr))
             except Exception as e:
