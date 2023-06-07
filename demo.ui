@@ -22,6 +22,12 @@
        <height>0</height>
       </size>
      </property>
+     <property name="font">
+      <font>
+       <family>楷体</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="currentIndex">
       <number>0</number>
      </property>
@@ -31,6 +37,12 @@
         <width>0</width>
         <height>0</height>
        </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>楷体</family>
+        <pointsize>10</pointsize>
+       </font>
       </property>
       <attribute name="title">
        <string>请求测试</string>
@@ -47,7 +59,7 @@
             <x>0</x>
             <y>0</y>
             <width>762</width>
-            <height>526</height>
+            <height>525</height>
            </rect>
           </property>
           <property name="minimumSize">
@@ -57,22 +69,15 @@
            </size>
           </property>
           <layout class="QGridLayout" name="gridLayout">
-           <item row="8" column="7">
-            <widget class="QSpinBox" name="download_num">
-             <property name="value">
-              <number>5</number>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>请求网站</string>
              </property>
             </widget>
            </item>
-           <item row="4" column="1" colspan="16">
-            <widget class="QTextEdit" name="header_2"/>
-           </item>
-           <item row="7" column="7">
-            <widget class="QSpinBox" name="download_delay">
-             <property name="value">
-              <number>1</number>
-             </property>
-            </widget>
+           <item row="0" column="1" colspan="4">
+            <widget class="QPlainTextEdit" name="url"/>
            </item>
            <item row="1" column="0">
             <widget class="QLabel" name="label_2">
@@ -81,162 +86,157 @@
              </property>
             </widget>
            </item>
-           <item row="5" column="4">
-            <widget class="QSpinBox" name="retry">
-             <property name="value">
-              <number>3</number>
-             </property>
-            </widget>
+           <item row="1" column="1" colspan="4">
+            <widget class="QPlainTextEdit" name="datas"/>
            </item>
-           <item row="0" column="1" colspan="16">
-            <widget class="QTextEdit" name="url">
-             <property name="html">
-              <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'SimSun'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-           </item>
-           <item row="8" column="6">
-            <widget class="QLabel" name="label_9">
-             <property name="text">
-              <string>下载数</string>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="0">
-            <widget class="QCheckBox" name="verify">
-             <property name="text">
-              <string>Verify</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0">
+           <item row="2" column="0">
             <widget class="QLabel" name="label_3">
              <property name="text">
               <string>请求头</string>
              </property>
             </widget>
            </item>
-           <item row="5" column="2">
+           <item row="2" column="1" colspan="4">
+            <widget class="QPlainTextEdit" name="header_2">
+             <property name="plainText">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QCheckBox" name="verify">
+             <property name="text">
+              <string>Verify</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
             <widget class="QLabel" name="label_5">
              <property name="text">
               <string>Retry</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="1" colspan="16">
-            <widget class="QTextEdit" name="datas">
-             <property name="html">
-              <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'SimSun'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <item row="3" column="2">
+            <widget class="QSpinBox" name="retry">
+             <property name="value">
+              <number>3</number>
              </property>
             </widget>
            </item>
-           <item row="8" column="2">
-            <widget class="QLabel" name="label_8">
-             <property name="text">
-              <string>线程数</string>
-             </property>
-            </widget>
-           </item>
-           <item row="10" column="4">
-            <widget class="QLineEdit" name="task">
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="6">
+           <item row="3" column="3">
             <widget class="QLabel" name="label_4">
              <property name="text">
               <string>编码方式</string>
              </property>
             </widget>
            </item>
-           <item row="8" column="4">
-            <widget class="QSpinBox" name="worker">
-             <property name="value">
-              <number>1</number>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="7">
+           <item row="3" column="4">
             <widget class="QLineEdit" name="encode">
              <property name="text">
               <string>utf-8</string>
              </property>
             </widget>
            </item>
-           <item row="8" column="0">
-            <widget class="QCheckBox" name="stdout">
-             <property name="text">
-              <string>日志重定向</string>
-             </property>
-            </widget>
-           </item>
-           <item row="10" column="6">
-            <widget class="QLabel" name="label_7">
-             <property name="text">
-              <string>Timeout</string>
-             </property>
-            </widget>
-           </item>
-           <item row="7" column="0">
+           <item row="4" column="0">
             <widget class="QCheckBox" name="post">
              <property name="text">
               <string>Post</string>
              </property>
             </widget>
            </item>
-           <item row="10" column="2">
-            <widget class="QLabel" name="label_11">
-             <property name="text">
-              <string>任务名</string>
-             </property>
-            </widget>
-           </item>
-           <item row="7" column="6">
-            <widget class="QLabel" name="label_10">
-             <property name="text">
-              <string>下载延迟</string>
-             </property>
-            </widget>
-           </item>
-           <item row="7" column="2">
+           <item row="4" column="1">
             <widget class="QLabel" name="label_6">
              <property name="text">
               <string>Log</string>
              </property>
             </widget>
            </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label">
-             <property name="text">
-              <string>请求网站</string>
-             </property>
-            </widget>
-           </item>
-           <item row="7" column="4">
+           <item row="4" column="2">
             <widget class="QLineEdit" name="log">
              <property name="text">
               <string>info</string>
              </property>
             </widget>
            </item>
-           <item row="10" column="7">
+           <item row="4" column="3">
+            <widget class="QLabel" name="label_10">
+             <property name="text">
+              <string>下载延迟</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="4">
+            <widget class="QSpinBox" name="download_delay">
+             <property name="value">
+              <number>1</number>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0">
+            <widget class="QCheckBox" name="stdout">
+             <property name="text">
+              <string>日志重定向</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="1">
+            <widget class="QLabel" name="label_8">
+             <property name="text">
+              <string>线程数</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="2">
+            <widget class="QSpinBox" name="worker">
+             <property name="value">
+              <number>1</number>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="3">
+            <widget class="QLabel" name="label_9">
+             <property name="text">
+              <string>下载数</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="4">
+            <widget class="QSpinBox" name="download_num">
+             <property name="value">
+              <number>5</number>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="1">
+            <widget class="QLabel" name="label_11">
+             <property name="text">
+              <string>任务名</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="2">
+            <widget class="QLineEdit" name="task">
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="3">
+            <widget class="QLabel" name="label_7">
+             <property name="text">
+              <string>Timeout</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="4">
             <widget class="QSpinBox" name="timeout">
              <property name="value">
               <number>3</number>
              </property>
             </widget>
            </item>
-           <item row="11" column="4">
+           <item row="7" column="2">
             <widget class="QPushButton" name="start">
              <property name="cursor">
               <cursorShape>PointingHandCursor</cursorShape>
@@ -246,7 +246,7 @@ p, li { white-space: pre-wrap; }
              </property>
             </widget>
            </item>
-           <item row="11" column="7">
+           <item row="7" column="4">
             <widget class="QPushButton" name="check_cookie">
              <property name="cursor">
               <cursorShape>PointingHandCursor</cursorShape>
@@ -355,7 +355,7 @@ p, li { white-space: pre-wrap; }
             <x>0</x>
             <y>0</y>
             <width>762</width>
-            <height>526</height>
+            <height>525</height>
            </rect>
           </property>
           <property name="minimumSize">
@@ -366,20 +366,32 @@ p, li { white-space: pre-wrap; }
           </property>
           <layout class="QGridLayout" name="gridLayout_4">
            <item row="0" column="0" colspan="2">
-            <widget class="QTextEdit" name="getheaders"/>
+            <widget class="QPlainTextEdit" name="getheaders"/>
            </item>
            <item row="0" column="2">
-            <widget class="QTextEdit" name="addheader"/>
+            <widget class="QPlainTextEdit" name="addheader"/>
            </item>
-           <item row="1" column="0">
+           <item row="2" column="0">
             <widget class="QCheckBox" name="json_zh">
+             <property name="font">
+              <font>
+               <family>楷体</family>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>JSON转换</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="1" colspan="2">
+           <item row="2" column="2">
             <widget class="QPushButton" name="start_headers">
+             <property name="font">
+              <font>
+               <family>楷体</family>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
              <property name="cursor">
               <cursorShape>PointingHandCursor</cursorShape>
              </property>
@@ -410,7 +422,7 @@ p, li { white-space: pre-wrap; }
             <x>0</x>
             <y>0</y>
             <width>762</width>
-            <height>526</height>
+            <height>525</height>
            </rect>
           </property>
           <property name="minimumSize">
@@ -434,9 +446,6 @@ p, li { white-space: pre-wrap; }
              </property>
             </widget>
            </item>
-           <item row="2" column="1">
-            <widget class="QTextEdit" name="en_str"/>
-           </item>
            <item row="0" column="0">
             <widget class="QLabel" name="label_12">
              <property name="text">
@@ -446,9 +455,6 @@ p, li { white-space: pre-wrap; }
            </item>
            <item row="0" column="4">
             <widget class="QLineEdit" name="iv"/>
-           </item>
-           <item row="2" column="4">
-            <widget class="QTextEdit" name="de_str"/>
            </item>
            <item row="3" column="1">
             <widget class="QPushButton" name="encstart">
@@ -470,8 +476,43 @@ p, li { white-space: pre-wrap; }
              </property>
             </widget>
            </item>
+           <item row="2" column="1">
+            <widget class="QPlainTextEdit" name="en_str"/>
+           </item>
+           <item row="2" column="4">
+            <widget class="QPlainTextEdit" name="de_str"/>
+           </item>
           </layout>
          </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_5">
+      <attribute name="title">
+       <string>运行js</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_6">
+       <item row="0" column="0">
+        <widget class="QPlainTextEdit" name="js_tr_2"/>
+       </item>
+       <item row="0" column="1">
+        <widget class="QPlainTextEdit" name="add_js_str_2"/>
+       </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QPushButton" name="run_js">
+         <property name="font">
+          <font>
+           <family>楷体</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="text">
+          <string>启动</string>
+         </property>
         </widget>
        </item>
       </layout>

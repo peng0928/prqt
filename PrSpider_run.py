@@ -1,3 +1,4 @@
+import json
 from PrSpider import PrSpiders
 from spider_sqlite import *
 
@@ -36,10 +37,12 @@ class Spider(PrSpiders):
             pass
         if self.data:
             if 'json' in str(self.header):
+                data = json.loads(self.data)
+                data = json.dumps(data)
                 PrSpiders.Requests(
                     url=url_list, callback=self.cparse, encoding=self.encode,
                     retry_time=self.retrytime, method=self.method, headers=self.header,
-                    timeout=self.timeout, verify=self.verify, meta=get_meta, data=self.data
+                    timeout=self.timeout, verify=self.verify, meta=get_meta, data=data
                 )
             else:
                 PrSpiders.Requests(
@@ -53,7 +56,6 @@ class Spider(PrSpiders):
                 retry_time=self.retrytime, method=self.method, headers=self.header,
                 timeout=self.timeout, verify=self.verify, meta=get_meta
             )
-
 
     def cparse(self, response):
         sql = '''
